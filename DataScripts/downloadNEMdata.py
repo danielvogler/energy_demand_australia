@@ -23,7 +23,7 @@ for state in states:
   for year in range(startyear,endyear+1):
     for month in range(1,13): 
       urlAddress = urlPrefix +  "_"  + str(year) +  str(month).zfill(2) +"_" + state + "1.csv"
-      os.system('wget ' + urlAddress)
+      os.system('wget ' + urlAddress +" -P Data/")
 
 
 
