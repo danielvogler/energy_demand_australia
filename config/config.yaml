@@ -1,0 +1,12 @@
+data:
+  data_path: '../data/'
+  url_prefix: "https://aemo.com.au/aemo/data/nem/priceanddemand/PRICE_AND_DEMAND"
+  start_year: 2000
+  end_year: 2010 
+  states:
+    - "NSW"
+    - "VIC"
+    - "QLD"
+    - "SA"
+    - "TAS"
+
