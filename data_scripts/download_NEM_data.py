@@ -24,7 +24,6 @@ os.makedirs(data_dir, exist_ok=True)
 
 start_year = cfg['data']['start_year']
 end_year = cfg['data']['end_year']
-
 states = cfg['data']['states']
 
 ### load data for states and months
