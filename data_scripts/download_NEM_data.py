@@ -9,26 +9,14 @@ url_address = "https://aemo.com.au/aemo/data/nem/priceanddemand/PRICE_AND_DEMAND
 
 import os
 import sys
-from pathlib import Path
 import yaml
+from data_utils import DataUtils
 
-script_dir = Path( os.path.split( os.path.abspath( sys.argv[0] ) )[0] )
-config_file = script_dir / '../config/config.yaml'
+DataUtils()
 
-with open(config_file, "r") as f:
-  cfg = yaml.safe_load(f)
+states = DataUtils().states
+start_year = DataUtils().start_year
+end_year = DataUtils().end_year
 
-data_dir = script_dir / cfg['data']['data_path']
+DataUtils().download_monthly_data( states, start_year, end_year)
 
-os.makedirs(data_dir, exist_ok=True) 
-
-start_year = cfg['data']['start_year']
-end_year = cfg['data']['end_year']
-states = cfg['data']['states']
-
-### load data for states and months
-for state in states:
-  for year in range(start_year, end_year+1):
-    for month in range(1,13): 
-      url_address = cfg['data']['url_prefix'] +  "_"  + str(year) +  str(month).zfill(2) +"_" + state + "1.csv"
-      os.system( "wget {} -P {}".format(url_address, data_dir) )
