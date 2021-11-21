@@ -13,3 +13,5 @@ data:
     - "SA"
     - "TAS"
 
+plot:
+  fig_path: '../figures/'

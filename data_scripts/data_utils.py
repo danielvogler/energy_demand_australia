@@ -7,6 +7,9 @@ import yaml
 import glob
 import shutil
 from pathlib import Path
+import pandas as pd
+from matplotlib import pyplot as plt
+import numpy as np
 
 class DataUtils:
 
@@ -27,6 +30,8 @@ class DataUtils:
         self.url_prefix = cfg['data']['url_prefix']
         self.data_summary_prefix = cfg['data']['data_summary_prefix']
 
+        self.fig_dir = self.script_dir / cfg['plot']['fig_path']
+
         self.initialize_dirs()
 
         return
@@ -36,6 +41,7 @@ class DataUtils:
         ''' intialize some necessary directories'''
         os.makedirs( self.data_dir, exist_ok=True) 
         os.makedirs( self.data_summary_dir, exist_ok=True) 
+        os.makedirs( self.fig_dir, exist_ok=True) 
         return
 
 
@@ -73,4 +79,35 @@ class DataUtils:
                         if i != 0:
                             sub_file.readline() 
                         shutil.copyfileobj(sub_file, summary_file)
+        return
+
+
+    def create_df(  self,
+                    state:str=None):
+        ''' create pandas DF from csv files and process data
+        
+        Args:
+            state [str] = state to pocess data for'''
+
+        df = pd.read_csv( self.data_summary_dir / str( self.data_summary_prefix + state + '.csv') )
+        df['SETTLEMENTDATE'] = pd.to_datetime( df['SETTLEMENTDATE'] )
+        df.to_pickle( self.data_summary_dir / str( self.data_summary_prefix + state + '.pkl') )
+        return df
+
+
+    def plot_time_series(   self,
+                            df,
+                            state):
+        ''' plot time series of downloaded data '''
+
+        fig = plt.figure(num=None, figsize=(16, 8), dpi=80, facecolor='w', edgecolor='k')
+        font = {'size'   : 14}
+        plt.rc('font', **font)
+        
+        plt.plot(df['SETTLEMENTDATE'], df['TOTALDEMAND'])
+        plt.legend(loc='upper center')
+        plt.xlabel("Time[-]")
+        plt.ylabel("Total demand [-]")
+        plt.title("Total demand over time")
+        plt.savefig( self.fig_dir / str( 'total_demand_over_time_' + state + '.png' ), bbox_inches='tight')
         return
