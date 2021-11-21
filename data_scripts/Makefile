@@ -1,0 +1,2 @@
+clean:
+	rm Data/*.csv
