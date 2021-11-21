@@ -1,4 +1,5 @@
 data:
+  data_download: False
   data_path: '../data/'
   data_summary_path: '../data/summary/'
   data_summary_prefix: 'price_and_demand_'

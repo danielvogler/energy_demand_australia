@@ -18,7 +18,8 @@ states = DataUtils().states
 start_year = DataUtils().start_year
 end_year = DataUtils().end_year
 
-DataUtils().download_monthly_data( states, start_year, end_year)
+if DataUtils().data_download:
+  DataUtils().download_monthly_data( states, start_year, end_year)
 
 for state in states:
     DataUtils().merge_monthly_data(state)

@@ -18,6 +18,7 @@ class DataUtils:
         with open( self.config_file, "r") as f:
             cfg = yaml.safe_load(f)
 
+        self.data_download = cfg['data']['data_download']
         self.start_year = cfg['data']['start_year']
         self.end_year = cfg['data']['end_year']
         self.states = cfg['data']['states']
