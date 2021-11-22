@@ -24,6 +24,6 @@ if DataUtils().data_download:
 
 for state in states:
   DataUtils().merge_monthly_data(state)
-  df_state = DataUtils().create_df(state)
-  DataUtils().plot_time_series(df_state, state)
+  df_state, df_state_avg = DataUtils().create_df(state, avg_window='D')
+  DataUtils().plot_time_series(df_state_avg, state)
 

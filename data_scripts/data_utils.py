@@ -83,16 +83,30 @@ class DataUtils:
 
 
     def create_df(  self,
-                    state:str=None):
+                    state:str=None,
+                    avg_window:str=None):
         ''' create pandas DF from csv files and process data
         
         Args:
-            state [str] = state to pocess data for'''
+            state [str] = state to pocess data for
+            avg_window [str] = window to average over '''
 
         df = pd.read_csv( self.data_summary_dir / str( self.data_summary_prefix + state + '.csv') )
-        df['SETTLEMENTDATE'] = pd.to_datetime( df['SETTLEMENTDATE'] )
+        df = df.rename( columns={'REGION': 'region', 
+                                'SETTLEMENTDATE': 'date', 
+                                'TOTALDEMAND': 'total_demand',
+                                'RRP': 'rrp',
+                                'PERIODTYPE': 'period_type'})
+        df['date'] = pd.to_datetime( df['date'] )
         df.to_pickle( self.data_summary_dir / str( self.data_summary_prefix + state + '.pkl') )
-        return df
+
+        if avg_window:
+            df_avg = df.groupby( pd.Grouper(key='date', freq=avg_window) ).mean().reset_index()
+            df_avg['region'] = state
+            df_avg.to_pickle( self.data_summary_dir / str( self.data_summary_prefix + state + '_avg.pkl') )
+            return df, df_avg
+        else:
+            return df
 
 
     def plot_time_series(   self,
@@ -104,7 +118,7 @@ class DataUtils:
         font = {'size'   : 14}
         plt.rc('font', **font)
         
-        plt.plot(df['SETTLEMENTDATE'], df['TOTALDEMAND'])
+        plt.plot(df['date'], df['total_demand'])
         plt.legend(loc='upper center')
         plt.xlabel("Time[-]")
         plt.ylabel("Total demand [-]")
