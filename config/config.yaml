@@ -1,5 +1,6 @@
 data:
   data_download: False
+  data_preprocess: True
   data_path: '../data/'
   data_summary_path: '../data/summary/'
   data_summary_prefix: 'price_and_demand_'
@@ -12,6 +13,7 @@ data:
     - "QLD"
     - "SA"
     - "TAS"
+  avg_window: 'D'
 
 plot:
   fig_path: '../figures/'

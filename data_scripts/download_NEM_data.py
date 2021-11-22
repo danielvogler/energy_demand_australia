@@ -21,9 +21,12 @@ end_year = DataUtils().end_year
 if DataUtils().data_download:
   DataUtils().download_monthly_data( states, start_year, end_year)
 
+if DataUtils().data_preprocess:
+  for state in states:
+    DataUtils().merge_monthly_data(state)
+    df_state, df_state_avg = DataUtils().create_df(state, avg_window=DataUtils().avg_window)
+    DataUtils().plot_time_series(df_state_avg, state)
+  
+  df_all = DataUtils().merge_dfs( str( DataUtils().data_summary_prefix + 'avg_'), name_str=DataUtils().avg_window)
 
-for state in states:
-  DataUtils().merge_monthly_data(state)
-  df_state, df_state_avg = DataUtils().create_df(state, avg_window='D')
-  DataUtils().plot_time_series(df_state_avg, state)
-
+print(df_all.head())

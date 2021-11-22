@@ -10,6 +10,7 @@ from pathlib import Path
 import pandas as pd
 from matplotlib import pyplot as plt
 import numpy as np
+from functools import reduce
 
 class DataUtils:
 
@@ -22,6 +23,7 @@ class DataUtils:
             cfg = yaml.safe_load(f)
 
         self.data_download = cfg['data']['data_download']
+        self.data_preprocess = cfg['data']['data_preprocess']
         self.start_year = cfg['data']['start_year']
         self.end_year = cfg['data']['end_year']
         self.states = cfg['data']['states']
@@ -29,6 +31,7 @@ class DataUtils:
         self.data_summary_dir = self.script_dir / cfg['data']['data_summary_path']
         self.url_prefix = cfg['data']['url_prefix']
         self.data_summary_prefix = cfg['data']['data_summary_prefix']
+        self.avg_window = cfg['data']['avg_window']
 
         self.fig_dir = self.script_dir / cfg['plot']['fig_path']
 
@@ -103,10 +106,35 @@ class DataUtils:
         if avg_window:
             df_avg = df.groupby( pd.Grouper(key='date', freq=avg_window) ).mean().reset_index()
             df_avg['region'] = state
-            df_avg.to_pickle( self.data_summary_dir / str( self.data_summary_prefix + state + '_avg.pkl') )
+            df_avg.to_pickle( self.data_summary_dir / str( self.data_summary_prefix + 'avg_' + state + '.pkl') )
             return df, df_avg
         else:
             return df
+
+
+    def merge_dfs(  self,
+                    df_prefix:str=None,
+                    name_str:str=None):
+        ''' merge all dataframes
+        
+        Args:
+            df_prefix [str] = prefix of file names of df summaries
+            name_str [str] = naming string to pass to file name'''
+
+        df_list = []
+        for state in self.states:
+            df = pd.read_pickle( self.data_summary_dir / str( df_prefix + state + '.pkl') )
+            df = df.drop(columns=['region'])
+            df = df.add_suffix('_' + state)
+            df = df.rename( columns={'date_'+state: 'date'})
+            df_list.append(df)
+
+        df_all = reduce(lambda  left,right: pd.merge(left,right,on=['date'],
+                                            how='outer'), df_list)
+        df_all.to_pickle( self.data_summary_dir / str( self.data_summary_prefix + name_str + '_all.pkl') )
+
+        return df_all
+
 
 
     def plot_time_series(   self,
