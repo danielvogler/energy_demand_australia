@@ -153,3 +153,36 @@ class DataUtils:
         plt.title("Total demand over time")
         plt.savefig( self.fig_dir / str( 'total_demand_over_time_' + state + '.png' ), bbox_inches='tight')
         return
+
+
+    def plot_all_time_series(   self,
+                                df):
+        ''' plot time series of downloaded data '''
+
+        fig = plt.figure(num=None, figsize=(16, 8), dpi=80, facecolor='w', edgecolor='k')
+        font = {'size'   : 14}
+        plt.rc('font', **font)
+        states = [col for col in df.columns if 'total_demand' in col]
+
+        for state in states:
+            plt.plot(df['date'], df[state], label=state)
+            plt.legend(loc='upper left')
+            plt.xlabel("Time[-]")
+            plt.ylabel("Total demand [-]")
+            plt.title("Total demand over time")
+        plt.savefig( self.fig_dir / str( 'total_demand_over_time_all.png' ), bbox_inches='tight')
+
+
+        fig = plt.figure(num=None, figsize=(16, 8), dpi=80, facecolor='w', edgecolor='k')
+        font = {'size'   : 14}
+        plt.rc('font', **font)
+        states = [col for col in df.columns if 'rrp' in col]
+
+        for state in states:
+            plt.plot(df['date'], df[state], label=state)
+            plt.legend(loc='upper left')
+            plt.xlabel("Time[-]")
+            plt.ylabel("RRP [-]")
+            plt.title("RRP over time")
+        plt.savefig( self.fig_dir / str( 'rrp_over_time_all.png' ), bbox_inches='tight')
+        return
