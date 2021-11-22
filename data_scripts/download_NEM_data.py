@@ -9,23 +9,24 @@ url_address = "https://aemo.com.au/aemo/data/nem/priceanddemand/PRICE_AND_DEMAND
 
 import os
 import sys
-from pathlib import Path
+import yaml
+from data_utils import DataUtils
 
-script_dir = Path( os.path.split( os.path.abspath( sys.argv[0] ) )[0] )
-data_dir = script_dir / '../data/'
+DataUtils()
 
-os.makedirs(data_dir, exist_ok=True) 
+states = DataUtils().states
+start_year = DataUtils().start_year
+end_year = DataUtils().end_year
 
-start_year = 2010
-end_year = 2020
+if DataUtils().data_download:
+  DataUtils().download_monthly_data( states, start_year, end_year)
 
-states = {"NSW","VIC","QLD","SA","TAS"}
-
-url_prefix = "https://aemo.com.au/aemo/data/nem/priceanddemand/PRICE_AND_DEMAND"
-
-
-for state in states:
-  for year in range(start_year, end_year+1):
-    for month in range(1,13): 
-      url_address = url_prefix +  "_"  + str(year) +  str(month).zfill(2) +"_" + state + "1.csv"
-      os.system( "wget {} -P {}".format(url_address, data_dir) )
+if DataUtils().data_preprocess:
+  for state in states:
+    DataUtils().merge_monthly_data(state)
+    df_state, df_state_avg = DataUtils().create_df(state, avg_window=DataUtils().avg_window)
+    DataUtils().plot_time_series(df_state_avg, state)
+  
+  df_all = DataUtils().merge_dfs( str( DataUtils().data_summary_prefix + 'avg_'), name_str=DataUtils().avg_window)
+  DataUtils().plot_all_time_series(df_all)
+print(df_all.head())
