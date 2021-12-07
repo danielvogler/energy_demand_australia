@@ -1,4 +1,5 @@
 # Energy demand forecasting
+This projects aims to predict energy demand and resulting retail price development in the Australian states. 
 
 ## Structure
 - `config`: Config file containing the chosen settings
@@ -23,3 +24,14 @@ There are a number of potential driving factors that influence energy demand and
   - Sunshine hours, sunrise and sunset times, solar flare
 - population
 - Gas prices
+
+### Data
+Data is obtained from the following sources:
+- Australian Energy Market Operator [https://aemo.com.au/](https://aemo.com.au/) on a monthly/state basis.  
+Example: [https://aemo.com.au/aemo/data/nem/priceanddemand/PRICE_AND_DEMAND_202001_NSW1.csv](https://aemo.com.au/aemo/data/nem/priceanddemand/PRICE_AND_DEMAND_202001_NSW1.csv)
+
+![Total energy demand](/images/total_demand_over_time_all.png "total demand")  
+Fig 1: Total energy demand for all states  
+
+![RRP](/images/rrp_over_time_all.png "RRP")  
+Fig 2: RRP for all states
