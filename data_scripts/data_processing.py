@@ -1,4 +1,4 @@
-''' file to download energy demand data from Australian states
+''' file to download and pre-process energy demand data from Australian states
 
 from https://aemo.com.au/energy-systems/electricity/national-electricity-market-nem/data-nem/aggregated-data
 

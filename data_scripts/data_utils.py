@@ -73,7 +73,7 @@ class DataUtils:
         ''' merge monthly energy demand files into one file per state 
         
         Args:
-            state [str] = state to merge files for 
+            state [str] = state to merge files for https://mail.ethz.ch/owa/auth/logon.aspx?replaceCurrent=1&url=https%3a%2f%2fmail.ethz.ch%2fowa
         '''
         file_list = sorted( glob.glob( str( self.data_dir / '*{}*.csv'.format(state) ) ) )
         with open( self.data_summary_dir / str( self.data_summary_prefix + state + '.csv') , 'wb') as summary_file:
@@ -113,7 +113,6 @@ class DataUtils:
 
 
     def merge_dfs(  self,
-                    df_prefix:str=None,
                     name_str:str=None):
         ''' merge all dataframes
         
