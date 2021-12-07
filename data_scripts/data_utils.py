@@ -150,7 +150,7 @@ class DataUtils:
         plt.legend(loc='upper center')
         plt.xlabel("Time[-]")
         plt.ylabel("Total demand [-]")
-        plt.title("Total demand over time")
+        plt.title("Total demand (" + state + ") over time")
         plt.savefig( self.fig_dir / str( 'total_demand_over_time_' + state + '.png' ), bbox_inches='tight')
         return
 
