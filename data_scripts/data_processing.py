@@ -27,6 +27,6 @@ if DataUtils().data_preprocess:
     df_state, df_state_avg = DataUtils().create_df(state, avg_window=DataUtils().avg_window)
     DataUtils().plot_time_series(df_state_avg, state)
   
-  df_all = DataUtils().merge_dfs( str( DataUtils().data_summary_prefix + 'avg_'), name_str=DataUtils().avg_window)
+  df_all = DataUtils().merge_dfs( name_str=DataUtils().avg_window)
   DataUtils().plot_all_time_series(df_all)
 print(df_all.head())

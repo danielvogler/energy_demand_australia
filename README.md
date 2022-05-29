@@ -1,10 +1,10 @@
-# Energy demand forecasting
-This projects aims to predict energy demand and resulting retail price development in the Australian states. 
+# Energy demand Australia
+Energy demand and resulting retail price development in the Australian states. 
 
 ## Structure
 - `config`: Config file containing the chosen settings
 - `data_scripts`: Scripts to download, pre-process and save downloaded data
-- `model`: Model scripts to perform demand forecasting on the downloaded and processed data
+- `model`: Model scripts for the downloaded and processed data
 
 ## How-to
 1. Adjust desired settings in `/config/config.yaml`
