@@ -7,9 +7,6 @@ url_address = "https://aemo.com.au/aemo/data/nem/priceanddemand/PRICE_AND_DEMAND
 
 '''
 
-import os
-import sys
-import yaml
 from data_utils import DataUtils
 
 DataUtils()

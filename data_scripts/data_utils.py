@@ -9,7 +9,6 @@ import shutil
 from pathlib import Path
 import pandas as pd
 from matplotlib import pyplot as plt
-import numpy as np
 from functools import reduce
 
 class DataUtils:

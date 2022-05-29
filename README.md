@@ -14,7 +14,7 @@ Energy demand and resulting retail price development in the Australian states.
   - `end_year`: YYYY (year to end downloads with)
   - `states`: `NSW/VIC/QLD/SA/TAS` (list all desired states)
   - `avg_window`: `D` (desired averaging window, e.g. 'D' for daily averaging)
-2. Run `/data_sripts/data_processing.py` 
+2. Run `/data_scripts/data_processing.py` 
    This will download total demand and retail price data for the chosen states and time frame
 
 ### Driving factors
